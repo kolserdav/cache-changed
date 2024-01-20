@@ -35,6 +35,7 @@ export default class CacheChanged {
     public create(): Promise<any>;
     /**
      * @typedef {{
+     *  isChanged: boolean;
      *  added: CacheItem[];
      *  updated: CacheItem[];
      *  deleted: CacheItem[];
@@ -45,6 +46,7 @@ export default class CacheChanged {
      * @returns {Promise<CompareResult>}
      */
     public compare(): Promise<{
+        isChanged: boolean;
         added: CacheItem[];
         updated: CacheItem[];
         deleted: CacheItem[];
