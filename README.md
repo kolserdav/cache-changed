@@ -2,6 +2,8 @@
 
 A simple library to monitor changes in a directory and cache the results. It allows you to compare the current state of a directory with its previous state, and return a list of added, updated, and deleted files. The library also provides a method to create a cache of the current state of the directory.
 
+[![Npm package dependents](https://badgen.net/npm/dependents/cache-changed)](https://npmjs.com/package/cache-changed)
+
 > The library uses only asynchronous operations where possible. Due to this, better performance is expected, but no error stack.
 
 ## Installation
