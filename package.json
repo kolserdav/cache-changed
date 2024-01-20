@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
+  "types": "./types",
   "type": "module",
   "files": [
     "package*.json",
