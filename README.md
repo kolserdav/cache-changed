@@ -4,6 +4,7 @@ A simple library to monitor changes in a directory and cache the results. It all
 
 [![Npm package license](https://badgen.net/npm/license/cache-changed)](https://npmjs.com/package/cache-changed)
 [![Npm package dependents](https://badgen.net/npm/dependents/cache-changed)](https://npmjs.com/package/cache-changed)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/kolserdav/cache-changed/pulls)
 
 > The library uses only asynchronous operations where possible. Due to this, better performance is expected, but no error stack.
 

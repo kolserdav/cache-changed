@@ -76,6 +76,7 @@ export default class CacheChanged {
 
   /**
    * @typedef {{
+   *  isChanged: boolean;
    *  added: CacheItem[];
    *  updated: CacheItem[];
    *  deleted: CacheItem[];
@@ -97,6 +98,7 @@ export default class CacheChanged {
             added: [],
             updated: [],
             deleted: [],
+            isChanged: false,
           };
           current.forEach((item) => {
             const cachedItem = cached.find((_item) => item.file === _item.file);
@@ -114,6 +116,11 @@ export default class CacheChanged {
               res.deleted.push(item);
             }
           });
+
+          if (res.added.length || res.deleted.length || res.updated.length) {
+            res.isChanged = true;
+          }
+
           resolve(res);
         })
         .catch((err) => {
