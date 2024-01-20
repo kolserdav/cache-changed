@@ -18,7 +18,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon examples/compare.js",
-    "build": "tsc -p ./jsconfig.json"
+    "build": "tsc -p ./jsconfig.json && rimraf types/examples"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
@@ -28,6 +28,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "nodemon": "^3.0.3",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.4",
+    "rimraf": "^5.0.5"
   }
 }
