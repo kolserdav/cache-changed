@@ -1,10 +1,11 @@
 {
   "name": "cache-changed",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
   "types": "./types",
   "type": "module",
+  "repository": "https://github.com/kolserdav/cache-changed.git",
   "files": [
     "package*.json",
     "index.js",
