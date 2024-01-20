@@ -1,6 +1,6 @@
 import path from "path";
 import pkg from "./package.json" with { type: "json" };
-import { readdir, readdirSync, stat, writeFileSync } from "fs";
+import { readdir, stat, writeFileSync } from "fs";
 
 process.removeAllListeners("warning");
 
@@ -58,6 +58,10 @@ export default class CacheChanged {
     writeFileSync(this.cacheFilePath, JSON.stringify(data));
   }
 
+  /**
+   *
+   * @returns {Promise<CacheItem[]>}
+   */
   async _create() {
     const dir = await this.readDir(this.targetDirPath);
     const stats = await this.getStats(this.targetDirPath, dir);
@@ -85,8 +89,8 @@ export default class CacheChanged {
             }
             if (stats.isDirectory()) {
               this.readDir(file).then((_newDir) => {
-                this.getStats(file, _newDir).then((d) => {
-                  resolve(d.flat());
+                this.getStats(file, _newDir).then((data) => {
+                  resolve(data.flat());
                 });
               });
 
