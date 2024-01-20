@@ -56,3 +56,19 @@ cacheChanged
     console.log('Compared cache result', res);
   });
 ```
+
+Result of compare:
+
+```json
+Compared cache result {
+  "added": [],
+  "updated": [
+    {
+      "file": "/nome/user/projects/cache-changed/.gitignore",
+      "mtimeMs": 1705743775005.3252
+    }
+  ],
+  "deleted": [],
+  "isChanged": true
+}
+```
