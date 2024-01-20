@@ -1,21 +1,26 @@
-import path from "path";
-import pkg from "./package.json" with { type: "json" };
-import { readdir, stat, writeFile } from "fs";
+import path from 'path';
+import pkg from './package.json' with { type: 'json' };
+import { readFile, readdir, stat, writeFile } from 'fs';
 
-process.removeAllListeners("warning");
+process.removeAllListeners('warning');
+
+const EXCLUDE_DEFAULT = ['.git'];
 
 const cwd = process.cwd();
 const { name } = pkg;
 
 /**
- * @typedef {{file: string, time: number}} CacheItem
+ * @typedef {{
+ *  file: string;
+ *  mtimeMs: number;
+ * }} CacheItem
  */
 
 export default class CacheChanged {
   cacheFilePath = path.resolve(cwd, `${name}.json`);
   targetDirPath = cwd;
   /**
-   * @type {string[] | undefined}
+   * @type {string[]}
    */
   exclude = [];
 
@@ -29,7 +34,7 @@ export default class CacheChanged {
   constructor({ cacheFilePath, targetDirPath, exclude }) {
     this.cacheFilePath = cacheFilePath;
     this.targetDirPath = targetDirPath;
-    this.exclude = exclude || [];
+    this.exclude = exclude ? exclude.concat(EXCLUDE_DEFAULT) : EXCLUDE_DEFAULT;
   }
 
   /**
@@ -41,7 +46,6 @@ export default class CacheChanged {
     return new Promise((resolve, reject) => {
       readdir(dirPath, (err, _dir) => {
         if (err) {
-          console.error("Failed to read dir", err);
           reject(err);
           return;
         }
@@ -54,22 +58,123 @@ export default class CacheChanged {
    * @public
    */
   async create() {
-    const data = await this._create();
-    writeFile(this.cacheFilePath, JSON.stringify(data), (err) => {
-      if (err) {
-        console.error("Faield to write cache file", err);
-      }
+    return new Promise((resolve, reject) => {
+      this.getCreated()
+        .then((data) => {
+          writeFile(this.cacheFilePath, JSON.stringify(data), (err) => {
+            if (err) {
+              reject(err);
+            }
+            resolve(data.length);
+          });
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
   /**
-   *
+   * @typedef {{
+   *  added: CacheItem[];
+   *  updated: CacheItem[];
+   *  deleted: CacheItem[];
+   * }} CompareResult
+   */
+
+  /**
+   * @public
+   * @returns {Promise<CompareResult>}
+   */
+  async compare() {
+    return new Promise((resolve, reject) => {
+      this.getCompared()
+        .then(({ cached, current }) => {
+          /**
+           * @type {CompareResult}
+           */
+          const res = {
+            added: [],
+            updated: [],
+            deleted: [],
+          };
+          current.forEach((item) => {
+            const cachedItem = cached.find((_item) => item.file === _item.file);
+            if (!cachedItem) {
+              res.added.push(item);
+              return;
+            }
+            if (cachedItem.mtimeMs !== item.mtimeMs) {
+              res.updated.push(item);
+            }
+          });
+          cached.forEach((item) => {
+            const currentItem = current.find((_item) => item.file === _item.file);
+            if (!currentItem) {
+              res.deleted.push(item);
+            }
+          });
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  /**
+   * @private
+   * @returns {Promise<{current: CacheItem[], cached: CacheItem[]}>}
+   */
+  async getCompared() {
+    return new Promise((resolve, reject) => {
+      readFile(this.cacheFilePath, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        /**
+         * @type {CacheItem[]}
+         */
+        let res = [];
+        try {
+          res = JSON.parse(data.toString());
+        } catch (err) {
+          reject(err);
+        }
+        this.getCreated()
+          .then((data) => {
+            resolve({
+              cached: res,
+              current: data,
+            });
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    });
+  }
+
+  /**
+   * @private
    * @returns {Promise<CacheItem[]>}
    */
-  async _create() {
-    const dir = await this.readDir(this.targetDirPath);
-    const stats = await this.getStats(this.targetDirPath, dir);
-    return stats.flat();
+  async getCreated() {
+    return new Promise((resolve, reject) => {
+      this.readDir(this.targetDirPath)
+        .then((dir) => {
+          this.getStats(this.targetDirPath, dir)
+            .then((stats) => {
+              resolve(stats.flat());
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 
   /**
@@ -82,41 +187,56 @@ export default class CacheChanged {
      * @type {Promise<CacheItem[]>[]}
      */
     const proms = [];
-    for (let i = 0; dir[i]; i++) {
-      const file = path.resolve(currentDirPath, dir[i]);
+    dir.forEach((item) => {
+      if (this.exclude.indexOf(item) !== -1) {
+        return;
+      }
+
+      const file = path.resolve(currentDirPath, item);
       proms.push(
         new Promise((resolve, reject) => {
           stat(file, (err, stats) => {
             if (err) {
-              console.error("Failed to get stats", err);
               reject(err);
             }
-            if (stats.isDirectory()) {
-              this.readDir(file).then((_newDir) => {
-                this.getStats(file, _newDir).then((data) => {
-                  resolve(data.flat());
+
+            let isDir = false;
+            try {
+              isDir = stats.isDirectory();
+            } catch (err) {
+              reject(err);
+            }
+
+            if (isDir) {
+              this.readDir(file)
+                .then((_newDir) => {
+                  // Recursion
+                  this.getStats(file, _newDir)
+                    .then((data) => {
+                      resolve(data.flat());
+                    })
+                    .catch((err) => {
+                      reject(err);
+                    });
+                })
+                .catch((err) => {
+                  reject(err);
                 });
-              });
 
               return;
             }
+
             resolve([
               {
                 file,
-                time: stats.atimeMs,
+                mtimeMs: stats.mtimeMs,
               },
             ]);
           });
-        }),
+        })
       );
-    }
+    });
+
     return Promise.all(await Promise.all(proms));
   }
 }
-
-const i = new CacheChanged({
-  cacheFilePath: path.resolve(cwd, "./tmp/cache.json"),
-  targetDirPath: path.resolve(cwd, "./"),
-});
-
-i.create();

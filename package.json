@@ -1,16 +1,25 @@
 {
   "name": "cache-changed",
   "version": "0.0.1",
-  "description": "",
+  "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
   "type": "module",
+  "files": [
+    "package*.json",
+    "index.js",
+    "types/index.d.ts"
+  ],
+  "keywords": [
+    "cache",
+    "compare",
+    "stats"
+  ],
+  "author": "",
+  "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon examples/compare.js",
     "build": "tsc -p ./jsconfig.json"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
