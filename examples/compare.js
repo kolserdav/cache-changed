@@ -1,5 +1,5 @@
 import path from 'path';
-import CacheChanged from '../index.js';
+import CacheChanged from 'cache-changed';
 
 const cwd = process.cwd();
 
