@@ -1,9 +1,9 @@
 {
   "name": "cache-changed",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
-  "types": "./types/index.d.ts",
+  "types": "./types",
   "type": "module",
   "repository": "https://github.com/kolserdav/cache-changed.git",
   "files": [
@@ -34,6 +34,6 @@
     "rimraf": "^5.0.5"
   },
   "dependencies": {
-    "cache-changed": "^0.0.6"
+    "cache-changed": "^0.0.7"
   }
 }
