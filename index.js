@@ -17,9 +17,16 @@ const { name } = pkg;
  */
 
 export default class CacheChanged {
+  /**
+   * @private
+   */
   cacheFilePath = path.resolve(cwd, `${name}.json`);
+  /**
+   * @private
+   */
   targetDirPath = cwd;
   /**
+   * @private
    * @type {string[]}
    */
   exclude = [];

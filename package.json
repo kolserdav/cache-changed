@@ -1,6 +1,6 @@
 {
   "name": "cache-changed",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
   "types": "./types/index.d.ts",
@@ -34,6 +34,6 @@
     "rimraf": "^5.0.5"
   },
   "dependencies": {
-    "cache-changed": "^0.0.5"
+    "cache-changed": "^0.0.6"
   }
 }
