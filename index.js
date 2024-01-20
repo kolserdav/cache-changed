@@ -1,6 +1,6 @@
 import path from "path";
 import pkg from "./package.json" with { type: "json" };
-import { readdir, stat, writeFileSync } from "fs";
+import { readdir, stat, writeFile } from "fs";
 
 process.removeAllListeners("warning");
 
@@ -55,7 +55,11 @@ export default class CacheChanged {
    */
   async create() {
     const data = await this._create();
-    writeFileSync(this.cacheFilePath, JSON.stringify(data));
+    writeFile(this.cacheFilePath, JSON.stringify(data), (err) => {
+      if (err) {
+        console.error("Faield to write cache file", err);
+      }
+    });
   }
 
   /**
