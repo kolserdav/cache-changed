@@ -60,7 +60,7 @@ cacheChanged
 Result of compare:
 
 ```json
-Compared cache result {
+{
   "added": [],
   "updated": [
     {
