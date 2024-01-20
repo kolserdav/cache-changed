@@ -16,7 +16,7 @@
     "compare",
     "stats"
   ],
-  "author": "",
+  "author": "kolserdav",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon examples/compare.js",
