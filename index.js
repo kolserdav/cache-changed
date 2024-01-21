@@ -45,7 +45,7 @@ export default class CacheChanged {
     if (!targetDirPath) {
       throw new Error(`Option "targetDirPath" is missing`);
     }
-    console.log(path.isAbsolute(cacheFilePath), cacheFilePath);
+
     this.cacheFilePath = cacheFilePath;
     this.targetDirPath = targetDirPath;
     this.exclude = exclude ? exclude.concat(EXCLUDE_DEFAULT) : EXCLUDE_DEFAULT;

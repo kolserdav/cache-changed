@@ -3,7 +3,7 @@ import CacheChanged from '../index.js';
 const cacheChanged = new CacheChanged({
   cacheFilePath: './tmp/cache.json',
   targetDirPath: './',
-  exclude: ['node_modules'],
+  exclude: ['node_modules', 'tmp'],
 });
 
 cacheChanged
