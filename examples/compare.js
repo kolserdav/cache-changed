@@ -1,4 +1,5 @@
-import CacheChanged from '../index.js';
+// @ts-check
+import CacheChanged from '../cache-changed.js';
 
 const cacheChanged = new CacheChanged({
   cacheFilePath: './tmp/cache.json',
