@@ -1,6 +1,6 @@
 {
   "name": "cache-changed",
-  "version": "0.0.17",
+  "version": "0.1.0",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "cache-changed.js",
   "type": "module",
@@ -23,7 +23,7 @@
   "scripts": {
     "dev:compare": "nodemon examples/compare.js",
     "dev:create": "nodemon examples/create.js",
-    "build": "tsc -p ./jsconfig.json"
+    "build": "tsc -p ./jsconfig.json && eslint cache-changed.d.ts --fix"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",

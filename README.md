@@ -22,11 +22,11 @@ Import `CacheChanged` class and get an instance of it:
 import CacheChanged from 'cache-changed';
 
 const cacheChanged = new CacheChanged({
-  // Required
+  // Default /tmp-dir-of-your-os/cache-cached_[basename(CWD)].json
   cacheFilePath: './tmp/cache.json',
-  // Required
+  // Default [CWD]
   targetDirPath: './',
-  // Optional
+  // Default ['.git'], if passed then concat with default
   exclude: ['node_modules'],
 });
 ```

@@ -1,10 +1,16 @@
 import path from 'path';
 import pkg from './package.json' with { type: 'json' };
 import { readFile, readdir, stat, writeFile } from 'fs';
+import { tmpdir } from 'os';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 process.removeAllListeners('warning');
 
 const EXCLUDE_DEFAULT = ['.git'];
+const TARGET_DIR_PATH_DEFAULT = './';
 
 const cwd = process.cwd();
 const { name } = pkg;
@@ -14,6 +20,11 @@ const { name } = pkg;
  *  file: string;
  *  mtimeMs: number;
  * }} CacheItem
+ * @typedef {{
+ *  cacheFilePath?: string;
+ *  targetDirPath?: string;
+ *  exclude?: string[];
+ * }} CacheChangedOptions
  */
 
 export default class CacheChanged {
@@ -34,22 +45,22 @@ export default class CacheChanged {
   exclude = [];
 
   /**
-   * @param {{
-   *  cacheFilePath: string;
-   *  targetDirPath: string;
-   *  exclude?: string[];
-   * }} param0
+   * @param {CacheChangedOptions | undefined} [options={}]
    */
-  constructor({ cacheFilePath, targetDirPath, exclude }) {
+  constructor({ cacheFilePath, targetDirPath, exclude } = {}) {
+    const cacheFileName = `${name}_${path.basename(__dirname)}.json`;
+    let _cacheFilePath = cacheFilePath;
     if (!cacheFilePath) {
-      throw new Error(`Option "cacheFilePath" is missing`);
-    }
-    if (!targetDirPath) {
-      throw new Error(`Option "targetDirPath" is missing`);
+      _cacheFilePath = path.resolve(tmpdir(), cacheFileName);
     }
 
-    this.cacheFilePath = cacheFilePath;
-    this.targetDirPath = targetDirPath;
+    let _targetDirPath = targetDirPath;
+    if (!targetDirPath) {
+      _targetDirPath = TARGET_DIR_PATH_DEFAULT;
+    }
+
+    this.cacheFilePath = _cacheFilePath || cacheFileName;
+    this.targetDirPath = _targetDirPath || TARGET_DIR_PATH_DEFAULT;
     this.exclude = exclude ? exclude.concat(EXCLUDE_DEFAULT) : EXCLUDE_DEFAULT;
   }
 
@@ -72,6 +83,7 @@ export default class CacheChanged {
 
   /**
    * @public
+   * @returns {Promise<number>}
    */
   async create() {
     return new Promise((resolve, reject) => {
