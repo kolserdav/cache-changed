@@ -1,11 +1,8 @@
-import path from 'path';
 import CacheChanged from '../index.js';
 
-const cwd = process.cwd();
-
 const cacheChanged = new CacheChanged({
-  cacheFilePath: path.resolve(cwd, './tmp/cache.json'),
-  targetDirPath: path.resolve(cwd, './'),
+  cacheFilePath: './tmp/cache.json',
+  targetDirPath: './',
   exclude: ['node_modules'],
 });
 

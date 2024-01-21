@@ -1,6 +1,6 @@
 {
   "name": "cache-changed",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "index.js",
   "types": "./types",
@@ -19,7 +19,8 @@
   "author": "kolserdav",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon examples/compare.js",
+    "dev:compare": "nodemon examples/compare.js",
+    "dev:create": "nodemon examples/create.js",
     "build": "tsc -p ./jsconfig.json && rimraf types/examples"
   },
   "devDependencies": {

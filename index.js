@@ -39,6 +39,13 @@ export default class CacheChanged {
    * }} param0
    */
   constructor({ cacheFilePath, targetDirPath, exclude }) {
+    if (!cacheFilePath) {
+      throw new Error(`Option "cacheFilePath" is missing`);
+    }
+    if (!targetDirPath) {
+      throw new Error(`Option "targetDirPath" is missing`);
+    }
+    console.log(path.isAbsolute(cacheFilePath), cacheFilePath);
     this.cacheFilePath = cacheFilePath;
     this.targetDirPath = targetDirPath;
     this.exclude = exclude ? exclude.concat(EXCLUDE_DEFAULT) : EXCLUDE_DEFAULT;

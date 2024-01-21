@@ -17,12 +17,19 @@ export default class CacheChanged {
         targetDirPath: string;
         exclude?: string[];
     });
-    cacheFilePath: string;
-    targetDirPath: string;
     /**
+     * @private
+     */
+    private cacheFilePath;
+    /**
+     * @private
+     */
+    private targetDirPath;
+    /**
+     * @private
      * @type {string[]}
      */
-    exclude: string[];
+    private exclude;
     /**
      * @private
      * @param {string} dirPath

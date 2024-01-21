@@ -6,7 +6,7 @@ A simple library to monitor changes in a directory and cache the results. It all
 [![Npm package dependents](https://badgen.net/npm/dependents/cache-changed)](https://npmjs.com/package/cache-changed)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/kolserdav/cache-changed/pulls)
 
-> The library uses only asynchronous operations where possible. Due to this, better performance is expected, but no error stack.
+> The library uses only asynchronous operations where possible. Due to this, better performance is expected. But no error stack, so the library pass all errors to call method and you should add to your log `new Error().stack` as shown below.
 
 ## Installation
 
@@ -19,14 +19,14 @@ npm i cache-changed
 Import `CacheChanged` class and get an instance of it:
 
 ```javascript
-import path from 'path';
-import CacheChanged from '../index.js';
-
-const cwd = process.cwd();
+import CacheChanged from 'cache-changed';
 
 const cacheChanged = new CacheChanged({
-  cacheFilePath: path.resolve(cwd, './tmp/cache.json'),
-  targetDirPath: path.resolve(cwd, './'),
+  // Required
+  cacheFilePath: './tmp/cache.json',
+  // Required
+  targetDirPath: './',
+  // Optional
   exclude: ['node_modules'],
 });
 ```
@@ -37,6 +37,7 @@ Creating a cache from the `targetDirPath` directory to the `cacheFilePath` file:
 cacheChanged
   .create()
   .catch((err) => {
+    // Log error with a stack
     console.error('Failed to create cache', err, new Error().stack);
   })
   .then((code) => {
@@ -50,6 +51,7 @@ Comparison of cache from file `cacheFilePath` and directory `targetDirPath`:
 cacheChanged
   .compare()
   .catch((err) => {
+    // Log error with a stack
     console.error('Failed to compare cache', err, new Error().stack);
   })
   .then((res) => {
