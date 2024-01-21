@@ -19,10 +19,12 @@ export default class CacheChanged {
     });
     /**
      * @private
+     * @type {string}
      */
     private cacheFilePath;
     /**
      * @private
+     * @type {string}
      */
     private targetDirPath;
     /**

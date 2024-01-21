@@ -19,10 +19,12 @@ const { name } = pkg;
 export default class CacheChanged {
   /**
    * @private
+   * @type {string}
    */
   cacheFilePath = path.resolve(cwd, `${name}.json`);
   /**
    * @private
+   * @type {string}
    */
   targetDirPath = cwd;
   /**
@@ -156,17 +158,17 @@ export default class CacheChanged {
         /**
          * @type {CacheItem[]}
          */
-        let res = [];
+        let cached = [];
         try {
-          res = JSON.parse(data.toString());
+          cached = JSON.parse(data.toString());
         } catch (err) {
           reject(err);
         }
         this.getCreated()
-          .then((data) => {
+          .then((current) => {
             resolve({
-              cached: res,
-              current: data,
+              cached,
+              current,
             });
           })
           .catch((err) => {
