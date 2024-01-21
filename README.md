@@ -66,8 +66,9 @@ Result of compare:
   "added": [],
   "updated": [
     {
-      "file": "/nome/user/projects/cache-changed/.gitignore",
-      "mtimeMs": 1705743775005.3252
+      "pathAbs": "/nome/user/projects/cache-changed/.gitignore",
+      "mtimeMs": 1705743775005.3252,
+      "isDir": false
     }
   ],
   "deleted": [],

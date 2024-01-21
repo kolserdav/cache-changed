@@ -1,7 +1,8 @@
 /**
  * @typedef {{
- *  file: string;
+ *  pathAbs: string;
  *  mtimeMs: number;
+ *  isDir: boolean;
  * }} CacheItem
  * @typedef {{
  *  cacheFilePath?: string;
@@ -76,8 +77,9 @@ export default class CacheChanged {
   private getStats;
 }
 export type CacheItem = {
-  file: string;
+  pathAbs: string;
   mtimeMs: number;
+  isDir: boolean;
 };
 export type CacheChangedOptions = {
   cacheFilePath?: string;

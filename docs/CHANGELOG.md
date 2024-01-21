@@ -32,7 +32,7 @@ new:
   "updated": [
     // CacheItem changed
     {
-      "path": "/nome/user/projects/cache-changed/.gitignore",
+      "pathAbs": "/nome/user/projects/cache-changed/.gitignore",
       "mtimeMs": 1705743775005.3252,
       "isDir": false
     }

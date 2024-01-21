@@ -17,7 +17,7 @@ const { name } = pkg;
 
 /**
  * @typedef {{
- *  path: string;
+ *  pathAbs: string;
  *  mtimeMs: number;
  *  isDir: boolean;
  * }} CacheItem
@@ -130,7 +130,7 @@ export default class CacheChanged {
             isChanged: false,
           };
           current.forEach((item) => {
-            const cachedItem = cached.find((_item) => item.path === _item.path);
+            const cachedItem = cached.find((_item) => item.pathAbs === _item.pathAbs);
             if (!cachedItem) {
               res.added.push(item);
               return;
@@ -140,7 +140,7 @@ export default class CacheChanged {
             }
           });
           cached.forEach((item) => {
-            const currentItem = current.find((_item) => item.path === _item.path);
+            const currentItem = current.find((_item) => item.pathAbs === _item.pathAbs);
             if (!currentItem) {
               res.deleted.push(item);
             }
@@ -252,7 +252,7 @@ export default class CacheChanged {
                       resolve(
                         data.flat().concat([
                           {
-                            path: file,
+                            pathAbs: file,
                             mtimeMs: stats.mtimeMs,
                             isDir,
                           },
@@ -271,7 +271,7 @@ export default class CacheChanged {
 
             resolve([
               {
-                path: file,
+                pathAbs: file,
                 mtimeMs: stats.mtimeMs,
                 isDir,
               },
