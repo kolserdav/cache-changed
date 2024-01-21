@@ -1,6 +1,6 @@
 {
   "name": "cache-changed",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Library for asynchronous recursive comparison of directory files and metadata cache file",
   "main": "cache-changed.js",
   "type": "module",

@@ -74,3 +74,7 @@ Result of compare:
   "isChanged": true
 }
 ```
+
+## Links
+
+- [Changelog](./docs/CHANGELOG.md)
