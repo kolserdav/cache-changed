@@ -1,5 +1,4 @@
 import path from 'path';
-import pkg from './package.json' with { type: 'json' };
 import { readFile, readdir, stat, writeFile } from 'fs';
 import { tmpdir } from 'os';
 import { fileURLToPath } from 'url';
@@ -7,13 +6,14 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-process.removeAllListeners('warning');
-
+/**
+ * @borrows package.json[name]
+ */
+const PACKAGE_NAME = 'cache-changed';
 const EXCLUDE_DEFAULT = ['.git'];
 const TARGET_DIR_PATH_DEFAULT = './';
 
 const cwd = process.cwd();
-const { name } = pkg;
 
 /**
  * @typedef {{
@@ -33,7 +33,7 @@ export default class CacheChanged {
    * @private
    * @type {string}
    */
-  cacheFilePath = path.resolve(cwd, `${name}.json`);
+  cacheFilePath = path.resolve(cwd, `${PACKAGE_NAME}.json`);
   /**
    * @private
    * @type {string}
@@ -49,7 +49,7 @@ export default class CacheChanged {
    * @param {CacheChangedOptions | undefined} [options={}]
    */
   constructor({ cacheFilePath, targetDirPath, exclude } = {}) {
-    const cacheFileName = `${name}_${path.basename(__dirname)}.json`;
+    const cacheFileName = `${PACKAGE_NAME}_${path.basename(__dirname)}.json`;
     let _cacheFilePath = cacheFilePath;
     if (!cacheFilePath) {
       _cacheFilePath = path.resolve(tmpdir(), cacheFileName);

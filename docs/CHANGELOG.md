@@ -1,5 +1,18 @@
 # Changelog
 
+### 1.0.2
+
+---
+
+- Fix node warning. Instead of use `import with {type: 'json'}` the package name set expliciltly
+
+```sh
+(node:92439) ExperimentalWarning: Importing JSON modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+```
+
+---
+
 ### 1.0.0
 
 - Added checking for empty directories
