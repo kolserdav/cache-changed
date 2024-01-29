@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.1
+
+- Provided `noWrite` param to method `create`
+
 ### 1.1.0
 
 - Method create returns the list of create items instead of its count

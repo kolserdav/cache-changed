@@ -38,9 +38,18 @@ export default class CacheChanged {
   private readDir;
   /**
    * @public
+   * @param {{
+   *  noWrite?: boolean;
+   * }} [options={}]
    * @returns {Promise<CacheItem[]>}
    */
-  public create(): Promise<CacheItem[]>;
+  public create({
+    noWrite,
+  }?:
+    | {
+        noWrite?: boolean | undefined;
+      }
+    | undefined): Promise<CacheItem[]>;
   /**
    * @typedef {{
    *  isChanged: boolean;

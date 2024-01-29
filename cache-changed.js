@@ -84,18 +84,25 @@ export default class CacheChanged {
 
   /**
    * @public
+   * @param {{
+   *  noWrite?: boolean;
+   * }} [options={}]
    * @returns {Promise<CacheItem[]>}
    */
-  async create() {
+  async create({ noWrite } = {}) {
     return new Promise((resolve, reject) => {
       this.getCreated()
         .then((data) => {
-          writeFile(this.cacheFilePath, JSON.stringify(data), (err) => {
-            if (err) {
-              reject(err);
-            }
+          if (noWrite) {
             resolve(data);
-          });
+          } else {
+            writeFile(this.cacheFilePath, JSON.stringify(data), (err) => {
+              if (err) {
+                reject(err);
+              }
+              resolve(data);
+            });
+          }
         })
         .catch((err) => {
           reject(err);
