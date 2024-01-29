@@ -1,10 +1,6 @@
 import path from 'path';
 import { readFile, readdir, stat, writeFile } from 'fs';
 import { tmpdir } from 'os';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 /**
  * @borrows package.json[name]
@@ -49,7 +45,7 @@ export default class CacheChanged {
    * @param {CacheChangedOptions | undefined} [options={}]
    */
   constructor({ cacheFilePath, targetDirPath, exclude } = {}) {
-    const cacheFileName = `${PACKAGE_NAME}_${path.basename(__dirname)}.json`;
+    const cacheFileName = `${PACKAGE_NAME}_${PACKAGE_NAME}.json`;
     let _cacheFilePath = cacheFilePath;
     if (!cacheFilePath) {
       _cacheFilePath = path.resolve(tmpdir(), cacheFileName);

@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.2
+
+- Remove usage of `import.meta.url`
+
 ### 1.1.1
 
 - Provided `noWrite` param to method `create`
