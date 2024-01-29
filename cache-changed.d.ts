@@ -38,9 +38,9 @@ export default class CacheChanged {
   private readDir;
   /**
    * @public
-   * @returns {Promise<number>}
+   * @returns {Promise<CacheItem[]>}
    */
-  public create(): Promise<number>;
+  public create(): Promise<CacheItem[]>;
   /**
    * @typedef {{
    *  isChanged: boolean;

@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.1.0
+
+- Method create returns the list of create items instead of its count
+- Exclude now works in a different way: instead of just comparing a file or directory name, the relative path of the excludes is taken into account.
+
 ### 1.0.2
 
 ---

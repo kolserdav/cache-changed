@@ -27,7 +27,7 @@ const cacheChanged = new CacheChanged({
   // Default [CWD]
   targetDirPath: './',
   // Default ['.git'], if passed then concat with default
-  exclude: ['node_modules'],
+  exclude: ['node_modules', 'some-dir/node_modules'],
 });
 ```
 

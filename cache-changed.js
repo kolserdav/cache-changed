@@ -84,7 +84,7 @@ export default class CacheChanged {
 
   /**
    * @public
-   * @returns {Promise<number>}
+   * @returns {Promise<CacheItem[]>}
    */
   async create() {
     return new Promise((resolve, reject) => {
@@ -94,7 +94,7 @@ export default class CacheChanged {
             if (err) {
               reject(err);
             }
-            resolve(data.length);
+            resolve(data);
           });
         })
         .catch((err) => {
@@ -224,11 +224,16 @@ export default class CacheChanged {
      */
     const proms = [];
     dir.forEach((item) => {
-      if (this.exclude.indexOf(item) !== -1) {
+      const file = path.resolve(currentDirPath, item);
+      if (
+        this.exclude.find((ex) => {
+          const exclude = path.resolve(cwd, ex);
+          return exclude === file;
+        })
+      ) {
         return;
       }
 
-      const file = path.resolve(currentDirPath, item);
       proms.push(
         new Promise((resolve, reject) => {
           stat(file, (err, stats) => {
