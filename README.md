@@ -35,7 +35,9 @@ Creating a cache from the `targetDirPath` directory to the `cacheFilePath` file:
 
 ```javascript
 cacheChanged
-  .create()
+  .create({
+    noWrite: false,
+  })
   .catch((err) => {
     // Log error with a stack
     console.error('Failed to create cache', err, new Error().stack);
