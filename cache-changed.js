@@ -230,7 +230,7 @@ export default class CacheChanged {
       const file = path.resolve(currentDirPath, item);
       if (
         this.exclude.find((ex) => {
-          const exclude = path.resolve(cwd, ex);
+          const exclude = path.resolve(this.targetDirPath, ex);
           return exclude === file;
         })
       ) {
