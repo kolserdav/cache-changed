@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.2.0
+
+- Provide argument to `compare` for custom cache
+
 ### 1.1.2
 
 - Remove usage of `import.meta.url`

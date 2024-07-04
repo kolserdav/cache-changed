@@ -117,12 +117,13 @@ export default class CacheChanged {
 
   /**
    * @public
+   * @param {CacheItem[] | undefined} cached
    * @returns {Promise<CompareResult>}
    */
-  async compare() {
+  async compare(cached = undefined) {
     return new Promise((resolve, reject) => {
-      this.getCompared()
-        .then(({ cached, current }) => {
+      this.getCompared(cached)
+        .then(({ cached: _cached, current }) => {
           /**
            * @type {CompareResult}
            */
@@ -133,7 +134,7 @@ export default class CacheChanged {
             isChanged: false,
           };
           current.forEach((item) => {
-            const cachedItem = cached.find((_item) => item.pathAbs === _item.pathAbs);
+            const cachedItem = _cached.find((_item) => item.pathAbs === _item.pathAbs);
             if (!cachedItem) {
               res.added.push(item);
               return;
@@ -142,7 +143,7 @@ export default class CacheChanged {
               res.updated.push(item);
             }
           });
-          cached.forEach((item) => {
+          _cached.forEach((item) => {
             const currentItem = current.find((_item) => item.pathAbs === _item.pathAbs);
             if (!currentItem) {
               res.deleted.push(item);
@@ -163,34 +164,53 @@ export default class CacheChanged {
 
   /**
    * @private
+   * @param {CacheItem[] | undefined} cached
    * @returns {Promise<{current: CacheItem[], cached: CacheItem[]}>}
    */
-  async getCompared() {
-    return new Promise((resolve, reject) => {
-      readFile(this.cacheFilePath, (err, data) => {
-        if (err) {
-          reject(err);
-        }
-        /**
-         * @type {CacheItem[]}
-         */
-        let cached = [];
-        try {
-          cached = JSON.parse(data.toString());
-        } catch (err) {
-          reject(err);
-        }
-        this.getCreated()
-          .then((current) => {
-            resolve({
-              cached,
-              current,
-            });
-          })
-          .catch((err) => {
+  async getCompared(cached = undefined) {
+    /**
+     * @type {Error | undefined}
+     */
+    let error;
+    /**
+     * @type {CacheItem[]}
+     */
+    let cache = [];
+    if (!cached) {
+      cache = await new Promise((resolve, reject) => {
+        readFile(this.cacheFilePath, (err, data) => {
+          if (err) {
             reject(err);
-          });
+          }
+          /**
+           * @type {CacheItem[]}
+           */
+          let _cached = [];
+          try {
+            _cached = JSON.parse(data.toString());
+          } catch (err) {
+            reject(err);
+          }
+          resolve(_cached);
+        });
+      }).catch((e) => {
+        error = e;
       });
+    }
+    return new Promise((resolve, reject) => {
+      if (!cached && error) {
+        reject(error);
+      }
+      this.getCreated()
+        .then((current) => {
+          resolve({
+            cached: cached || cache,
+            current,
+          });
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
