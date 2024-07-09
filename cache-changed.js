@@ -16,6 +16,7 @@ const cwd = process.cwd();
  *  pathAbs: string;
  *  mtimeMs: number;
  *  isDir: boolean;
+ *  size: number;
  * }} CacheItem
  * @typedef {{
  *  cacheFilePath?: string;
@@ -283,6 +284,7 @@ export default class CacheChanged {
                             pathAbs: file,
                             mtimeMs: stats.mtimeMs,
                             isDir,
+                            size: stats.size,
                           },
                         ])
                       );
@@ -302,6 +304,7 @@ export default class CacheChanged {
                 pathAbs: file,
                 mtimeMs: stats.mtimeMs,
                 isDir,
+                size: stats.size,
               },
             ]);
           });

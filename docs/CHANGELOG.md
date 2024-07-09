@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.0
+
+- Added file sizes to result
+
 ### 1.2.0
 
 - Provide argument to `compare` for custom cache

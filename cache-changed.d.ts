@@ -3,6 +3,7 @@
  *  pathAbs: string;
  *  mtimeMs: number;
  *  isDir: boolean;
+ *  size: number;
  * }} CacheItem
  * @typedef {{
  *  cacheFilePath?: string;
@@ -87,6 +88,7 @@ export type CacheItem = {
     pathAbs: string;
     mtimeMs: number;
     isDir: boolean;
+    size: number;
 };
 export type CacheChangedOptions = {
     cacheFilePath?: string;
