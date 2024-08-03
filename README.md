@@ -69,6 +69,7 @@ Result of compare:
   "updated": [
     {
       "pathAbs": "/home/user/projects/cache-changed/.gitignore",
+      "pathRel": ".gitignore",
       "mtimeMs": 1705743775005.3252,
       "size": 16,
       "isDir": false

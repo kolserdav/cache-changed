@@ -14,6 +14,7 @@ const cwd = process.cwd();
 /**
  * @typedef {{
  *  pathAbs: string;
+ *  pathRel: string;
  *  mtimeMs: number;
  *  isDir: boolean;
  *  size: number;
@@ -41,6 +42,12 @@ export default class CacheChanged {
    * @type {string[]}
    */
   exclude = [];
+
+  /**
+   * @private
+   * @type {string | null}
+   */
+  cwd = null;
 
   /**
    * @param {CacheChangedOptions | undefined} [options={}]
@@ -247,8 +254,17 @@ export default class CacheChanged {
      * @type {Promise<CacheItem[]>[]}
      */
     const proms = [];
+    if (!this.cwd) {
+      this.cwd = path.resolve(cwd, currentDirPath);
+      if (!/\/$/.test(this.cwd)) {
+        this.cwd = `${this.cwd}/`;
+      }
+    }
+    const relativePath = currentDirPath.replace(this.cwd, '');
+    console.log(11, this.cwd, relativePath, currentDirPath);
     dir.forEach((item) => {
       const file = path.resolve(currentDirPath, item);
+      const pathRel = path.join(relativePath, item);
       if (
         this.exclude.find((ex) => {
           const exclude = path.resolve(this.targetDirPath, ex);
@@ -282,6 +298,7 @@ export default class CacheChanged {
                         data.flat().concat([
                           {
                             pathAbs: file,
+                            pathRel,
                             mtimeMs: stats.mtimeMs,
                             isDir,
                             size: stats.size,
@@ -302,6 +319,7 @@ export default class CacheChanged {
             resolve([
               {
                 pathAbs: file,
+                pathRel,
                 mtimeMs: stats.mtimeMs,
                 isDir,
                 size: stats.size,

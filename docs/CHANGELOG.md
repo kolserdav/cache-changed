@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.1
+
+- Added `pathRel` to result
+
 ### 1.3.0
 
 - Added file sizes to result

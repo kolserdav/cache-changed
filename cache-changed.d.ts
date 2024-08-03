@@ -1,6 +1,7 @@
 /**
  * @typedef {{
  *  pathAbs: string;
+ *  pathRel: string;
  *  mtimeMs: number;
  *  isDir: boolean;
  *  size: number;
@@ -31,6 +32,11 @@ export default class CacheChanged {
      * @type {string[]}
      */
     private exclude;
+    /**
+     * @private
+     * @type {string | null}
+     */
+    private cwd;
     /**
      * @private
      * @param {string} dirPath
@@ -86,6 +92,7 @@ export default class CacheChanged {
 }
 export type CacheItem = {
     pathAbs: string;
+    pathRel: string;
     mtimeMs: number;
     isDir: boolean;
     size: number;
