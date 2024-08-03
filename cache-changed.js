@@ -256,12 +256,12 @@ export default class CacheChanged {
     const proms = [];
     if (!this.cwd) {
       this.cwd = path.resolve(cwd, currentDirPath);
-      if (!/\/$/.test(this.cwd)) {
-        this.cwd = `${this.cwd}/`;
-      }
     }
-    const relativePath = currentDirPath.replace(this.cwd, '');
-    console.log(11, this.cwd, relativePath, currentDirPath);
+    let relativePath = currentDirPath.replace(this.cwd, '');
+    const firstSlushReg = /^\//;
+    if (firstSlushReg.test(relativePath)) {
+      relativePath = relativePath.replace(firstSlushReg, '');
+    }
     dir.forEach((item) => {
       const file = path.resolve(currentDirPath, item);
       const pathRel = path.join(relativePath, item);

@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.3.2
+
+- Fixed `pathRel` bug
+
 ### 1.3.1
 
 - Added `pathRel` to result
