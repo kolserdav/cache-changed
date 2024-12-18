@@ -294,6 +294,9 @@ export default class CacheChanged {
                   // Recursion
                   this.getStats(file, _newDir)
                     .then((data) => {
+                      if (!stats) {
+                        reject(new Error(`Stats is missing: ${file}`));
+                      }
                       resolve(
                         data.flat().concat([
                           {
